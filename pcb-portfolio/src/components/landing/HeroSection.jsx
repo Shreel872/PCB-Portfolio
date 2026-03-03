@@ -65,7 +65,7 @@ export default function HeroSection() {
         className="flex flex-wrap gap-3"
       >
         <a
-          href="/resume.pdf"
+          href="\Shreel___Patel_Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-100 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 hover:border-gray-600 transition-colors"
@@ -86,7 +86,7 @@ export default function HeroSection() {
           Resume
         </a>
         <a
-          href="https://github.com"
+          href="https://github.com/Shreel872"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-400 border border-gray-800 rounded-lg hover:text-gray-200 hover:border-gray-700 transition-colors"
@@ -97,7 +97,7 @@ export default function HeroSection() {
           GitHub
         </a>
         <a
-          href="https://linkedin.com"
+          href="https://www.linkedin.com/in/shreel-s-patel/"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-400 border border-gray-800 rounded-lg hover:text-gray-200 hover:border-gray-700 transition-colors"
