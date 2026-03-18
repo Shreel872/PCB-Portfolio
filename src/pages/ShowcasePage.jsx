@@ -5,10 +5,11 @@ import ModelViewer from "../components/viewer/ModelViewer";
 import GerberViewer from "../components/viewer/GerberViewer";
 import PhotoViewer from "../components/viewer/PhotoViewer";
 import PdfViewer from "../components/viewer/PdfViewer";
+import BlockDiagram from "../components/viewer/BlockDiagram";
 import ViewToggle from "../components/ui/ViewToggle";
 import EngineeringPanel from "../components/panel/EngineeringPanel";
 
-const VIEWS = [
+const LIGHTING_VIEWS = [
   { id: "3d", label: "3D Model" },
   { id: "top", label: "Top Layer" },
   { id: "layout", label: "Layout" },
@@ -16,9 +17,21 @@ const VIEWS = [
   { id: "photo", label: "Photo" },
 ];
 
+const ACU_VIEWS = [
+  { id: "system", label: "System Diagram" },
+  { id: "hw-verification", label: "HW Verification" },
+  { id: "schematic", label: "Schematic" },
+];
+
+const VIEWS_MAP = {
+  "automotive-lighting": LIGHTING_VIEWS,
+  "array-control-unit": ACU_VIEWS,
+};
+
 // Map project IDs to their module data imports
 const MODULE_MAP = {
   "automotive-lighting": () => import("../data/modules.js"),
+  "array-control-unit": () => import("../data/acu-modules.js"),
 };
 
 function ModuleTabs({ modules, activeId, onSelect }) {
@@ -45,21 +58,32 @@ function ModuleTabs({ modules, activeId, onSelect }) {
 }
 
 function ViewerArea({ mod, activeView }) {
+  const isBlockDiagram = activeView === "system" || activeView === "hw-verification";
+
   return (
     <div className="w-full h-full relative">
+      {/* Block diagram views (ACU) */}
+      {isBlockDiagram && (
+        <div className="w-full h-full flex items-center justify-center p-4 overflow-auto">
+          <BlockDiagram diagramId={activeView} />
+        </div>
+      )}
+
       {/* Keep ModelViewer always mounted to avoid WebGL context loss */}
-      <div
-        className="absolute inset-0"
-        style={{ visibility: activeView === "3d" ? "visible" : "hidden" }}
-      >
-        <ModelViewer
-          modelPath={mod.modelPath}
-          gerberFiles={mod.gerberFiles}
-          interactive
-          autoRotate
-          autoRotateSpeed={0.8}
-        />
-      </div>
+      {mod.modelPath && (
+        <div
+          className="absolute inset-0"
+          style={{ visibility: activeView === "3d" ? "visible" : "hidden" }}
+        >
+          <ModelViewer
+            modelPath={mod.modelPath}
+            gerberFiles={mod.gerberFiles}
+            interactive
+            autoRotate
+            autoRotateSpeed={0.8}
+          />
+        </div>
+      )}
 
       {activeView === "top" && (
         <GerberViewer
@@ -101,7 +125,8 @@ export default function ShowcasePage() {
   const { projectId } = useParams();
   const [modules, setModules] = useState(null);
   const [activeModuleId, setActiveModuleId] = useState(null);
-  const [activeView, setActiveView] = useState("3d");
+  const views = VIEWS_MAP[projectId] || LIGHTING_VIEWS;
+  const [activeView, setActiveView] = useState(views[0]?.id || "3d");
 
   const project = getProjectById(projectId);
 
@@ -113,13 +138,14 @@ export default function ShowcasePage() {
       const mods = mod.modules || mod.default;
       setModules(mods);
       setActiveModuleId(mods[0].id);
+      setActiveView(VIEWS_MAP[projectId]?.[0]?.id || "3d");
     });
   }, [projectId]);
 
   const handleModuleSelect = useCallback((id) => {
     setActiveModuleId(id);
-    setActiveView("3d");
-  }, []);
+    setActiveView(views[0]?.id || "3d");
+  }, [views]);
 
   if (!project) {
     return (
@@ -153,7 +179,7 @@ export default function ShowcasePage() {
           </div>
           <div className="overflow-x-auto">
             <ViewToggle
-              views={VIEWS}
+              views={views}
               activeView={activeView}
               onViewChange={setActiveView}
             />

@@ -58,9 +58,11 @@ export default function EngineeringPanel({
               </ul>
             </SpecSection>
 
-            <SpecSection title="Key Calculations">
-              <CalculationBlock calculations={mod.calculations} />
-            </SpecSection>
+            {mod.calculations && mod.calculations.length > 0 && (
+              <SpecSection title="Key Calculations">
+                <CalculationBlock calculations={mod.calculations} />
+              </SpecSection>
+            )}
 
             <SpecSection title="Design Considerations">
               <ul className="space-y-1.5">
@@ -73,6 +75,7 @@ export default function EngineeringPanel({
               </ul>
             </SpecSection>
 
+            {mod.improvements && mod.improvements.length > 0 && (
             <SpecSection title="What I'd Improve (v2)">
               <ul className="space-y-1.5">
                 {mod.improvements.map((item, i) => (
@@ -83,6 +86,7 @@ export default function EngineeringPanel({
                 ))}
               </ul>
             </SpecSection>
+            )}
 
             <div className="mt-2">
               <TradeoffBox

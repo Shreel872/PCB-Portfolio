@@ -8,6 +8,16 @@ export const projects = [
     tags: ["Altium Designer", "LED Driver", "Thermal Management", "Automotive"],
     moduleCount: 5,
   },
+  {
+    id: "array-control-unit",
+    title: "Array Control Unit",
+    subtitle: "HV precharge controller with isolated hardware verification",
+    description:
+      "Solar vehicle array control unit managing the precharge sequence between the solar array MPPT and the battery pack. Features isolated ground planes for HV/LV separation and hardware-verified contactor control via optocoupled comparators.",
+    tags: ["Power Electronics", "HV Isolation", "CAN Bus", "Solar Vehicle"],
+    status: "in-progress",
+    moduleCount: 1,
+  },
 ];
 
 export const getProjectById = (id) => projects.find((p) => p.id === id);

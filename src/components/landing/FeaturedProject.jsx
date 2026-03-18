@@ -81,7 +81,7 @@ export default function FeaturedProject() {
             className="border border-gray-800/60 rounded-lg p-4 bg-gray-900/40"
           >
             <p className="text-[11px] uppercase tracking-wider text-gray-500 mb-3">
-              Sample Calculation — CHMSL
+              Sample Calculation - CHMSL
             </p>
             <CalculationBlock calculations={chmsl.calculations.slice(0, 2)} />
           </motion.div>
